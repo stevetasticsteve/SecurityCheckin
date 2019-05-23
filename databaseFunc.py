@@ -2,12 +2,9 @@ import sqlite3
 import sys
 import logging
 import datetime
-import csv
-import time
 from logSettings import createLogger, closeLogging
 from SecurityCheckins import version
 
-from PyQt5.QtWidgets import QMessageBox
 
 logger = createLogger(__name__)
 logger.addHandler(logging.StreamHandler())

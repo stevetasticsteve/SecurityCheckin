@@ -1,0 +1,23 @@
+[2019-01-29 10:10:20,584] INFO SecurityCheckins.pyw:483      GUI started
+[2019-01-29 10:10:21,491] INFO SecurityCheckins.pyw:491      No .db exists, program must be running for first time
+[2019-01-29 10:10:22,957] INFO SecurityCheckins.pyw:508      User chose to load existing .db
+[2019-01-29 10:10:22,957] DEBUG EditDbDialog.py:119      Load called
+[2019-01-29 10:10:51,957] DEBUG databaseFunc.py:24       db connected
+[2019-01-29 10:10:51,957] DEBUG databaseFunc.py:24       db connected
+[2019-01-29 10:10:51,958] DEBUG SecurityCheckins.pyw:48       GUI (re)drawn
+[2019-01-29 10:10:55,910] DEBUG databaseFunc.py:146      Itutang logged as checked in via Inreach
+[2019-01-29 10:10:55,910] DEBUG databaseFunc.py:146      Itutang logged as checked in via Inreach
+[2019-01-29 10:10:55,917] DEBUG SecurityCheckins.pyw:48       GUI (re)drawn
+[2019-01-29 10:10:57,463] DEBUG databaseFunc.py:146      Kuman logged as checked in via Email
+[2019-01-29 10:10:57,463] DEBUG databaseFunc.py:146      Kuman logged as checked in via Email
+[2019-01-29 10:10:57,469] DEBUG SecurityCheckins.pyw:48       GUI (re)drawn
+[2019-01-29 10:10:58,987] DEBUG SecurityCheckins.pyw:185      Close event
+[2019-01-29 10:10:58,987] DEBUG databaseFunc.py:371      db closed
+[2019-01-29 10:10:58,987] DEBUG databaseFunc.py:371      db closed
+[2019-05-23 20:39:05,657] INFO SecurityCheckins.pyw:483      GUI started
+[2019-05-23 20:39:06,973] DEBUG databaseFunc.py:24       db connected
+[2019-05-23 20:39:06,973] DEBUG databaseFunc.py:24       db connected
+[2019-05-23 20:39:06,975] DEBUG SecurityCheckins.pyw:48       GUI (re)drawn
+[2019-05-23 20:39:08,566] DEBUG SecurityCheckins.pyw:185      Close event
+[2019-05-23 20:39:08,566] DEBUG databaseFunc.py:371      db closed
+[2019-05-23 20:39:08,566] DEBUG databaseFunc.py:371      db closed

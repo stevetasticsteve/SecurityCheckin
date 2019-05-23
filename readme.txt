@@ -1,0 +1,3 @@
+Our organization has people living in remote areas for extended periods of time. Our policy is that once every 3 days they need to contact headquaters to check in with the security coordinator. If there is no check in after 3 days the security coordinator needs to launch a search and rescue. This simple PyQT5 desktop app creates an SQlite database and a user friendly GUI for keeping track of checkins from outstations. Clicking on the outstation check in button logs the checkin and any stations that go longer than 3 days without being checked in appear in red.
+
+The program could be used to keep track of any group of tasks that need to be attended to regularly.

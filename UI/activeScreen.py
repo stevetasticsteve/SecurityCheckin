@@ -1,9 +1,12 @@
 import logging
+
 from PyQt5.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QCheckBox
+
 import function.logSettings as logSettings
 
 logger = logSettings.createLogger(__name__)
 logger.addHandler(logging.StreamHandler())
+
 
 class activeScreenWidget(QDialog):
     # defines a widget where user can tick check boxes to set active or inactive
@@ -18,7 +21,7 @@ class activeScreenWidget(QDialog):
             self.grid = QGridLayout()
 
             activeTribes = self.db.listActiveTribalInfo()
-            inactiveTribes  = self.db.listInactiveTribalInfo()
+            inactiveTribes = self.db.listInactiveTribalInfo()
             self.allTribes = []
             self.checkBoxes = []
 
@@ -53,7 +56,7 @@ class activeScreenWidget(QDialog):
                 checkBox.setObjectName(tup[0])
                 checkBox.toggled.connect(
                     lambda: self.changed(self.sender()))
-                self.checkBoxes.append(checkBox)            
+                self.checkBoxes.append(checkBox)
 
                 self.grid.addWidget(tribeLbl, i + j, 0)
                 self.grid.addWidget(familyLbl, i + j, 1)
@@ -83,4 +86,3 @@ class activeScreenWidget(QDialog):
             self.mw.resetScreen()
         except Exception:
             logger.exception('Fail on active screen')
-

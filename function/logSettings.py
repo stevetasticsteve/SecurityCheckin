@@ -1,7 +1,7 @@
 import logging
 
 log_format = ('[%(asctime)s] %(levelname)-3s %(filename)s:%(lineno)-8d '
-             '%(message)-3s')
+              '%(message)-3s')
 logFile = 'log.log'
 logLevel = logging.DEBUG
 

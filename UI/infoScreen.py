@@ -1,9 +1,12 @@
 import logging
-from PyQt5.QtWidgets import QDialog, QGridLayout, QPushButton, QPlainTextEdit 
+
+from PyQt5.QtWidgets import QDialog, QGridLayout, QPushButton, QPlainTextEdit
+
 import function.logSettings as logSettings
 
 logger = logSettings.createLogger(__name__)
 logger.addHandler(logging.StreamHandler())
+
 
 class infoScreenWidget(QDialog):
     # Defines and pulls up a notepad type widget, the text of which is saved
@@ -29,14 +32,12 @@ class infoScreenWidget(QDialog):
             self.show()
         except Exception:
             logger.exception('infoScreen fail')
-            
-            
+
     def saveInfo(self):
         logger.debug('Ok clicked on info widget')
         # Once Ok is clicked take text in widget and save to .db
         newInfo = self.textArea.toPlainText()
-        if self.currentInfo != newInfo: # Only save if changes made
+        if self.currentInfo != newInfo:  # Only save if changes made
             self.db.updateInfo(self.tribe, newInfo)
             logger.info('new text saved to info')
         self.close()
-        

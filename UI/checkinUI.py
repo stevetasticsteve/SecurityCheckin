@@ -6,7 +6,8 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -88,12 +89,14 @@ class Ui_MainWindow(object):
         self.actionAdd_tribe.setText(_translate("MainWindow", "Add tribe"))
         self.actionAdd_tribe.setStatusTip(_translate("MainWindow", "Add a new tribe to .db"))
         self.actionAdd_Remove_checkin_methods.setText(_translate("MainWindow", "Add/Remove check-in methods"))
-        self.actionAdd_Remove_checkin_methods.setStatusTip(_translate("MainWindow", "Add or remove a way tribes can checkin"))
+        self.actionAdd_Remove_checkin_methods.setStatusTip(
+            _translate("MainWindow", "Add or remove a way tribes can checkin"))
         self.actionExport_database.setText(_translate("MainWindow", "Export database"))
         self.actionAlphabetical_order.setText(_translate("MainWindow", "Alphabetical order"))
         self.actionAlphabetical_order.setStatusTip(_translate("MainWindow", "I want to see everything alphabetically"))
         self.actionLast_check_in_order.setText(_translate("MainWindow", "Last check in order"))
-        self.actionLast_check_in_order.setStatusTip(_translate("MainWindow", "I want to see everything chronologically"))
+        self.actionLast_check_in_order.setStatusTip(
+            _translate("MainWindow", "I want to see everything chronologically"))
         self.actionHelp_contents.setText(_translate("MainWindow", "Help contents"))
         self.actionHelp_contents.setStatusTip(_translate("MainWindow", "I don\'t know what\'s going on"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
@@ -101,11 +104,13 @@ class Ui_MainWindow(object):
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionExit.setStatusTip(_translate("MainWindow", "I\'m done with all this jazz, smell ya l8r"))
         self.actionSet_active_inactive.setText(_translate("MainWindow", "Set active/inactive"))
-        self.actionSet_active_inactive.setStatusTip(_translate("MainWindow", "Set which tribes require checkins and which are dormant"))
+        self.actionSet_active_inactive.setStatusTip(
+            _translate("MainWindow", "Set which tribes require checkins and which are dormant"))
         self.actionRemove_tribe.setText(_translate("MainWindow", "Remove tribe"))
         self.actionRemove_tribe.setStatusTip(_translate("MainWindow", "Remove tribe and all logged checkins from .db"))
         self.actionEdit_family_information.setText(_translate("MainWindow", "Edit family information"))
-        self.actionEdit_family_information.setStatusTip(_translate("MainWindow", "Change which families belong to which locations"))
+        self.actionEdit_family_information.setStatusTip(
+            _translate("MainWindow", "Change which families belong to which locations"))
         self.actionUndo_last_checkin.setText(_translate("MainWindow", "Delete last checkin"))
-        self.actionUndo_last_checkin.setStatusTip(_translate("MainWindow", "\"Oops I shouldn\'t have clicked that\" - this is the option for you"))
-
+        self.actionUndo_last_checkin.setStatusTip(
+            _translate("MainWindow", "\"Oops I shouldn\'t have clicked that\" - this is the option for you"))

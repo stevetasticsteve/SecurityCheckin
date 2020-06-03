@@ -1,9 +1,12 @@
 import logging
+
 from PyQt5.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QScrollArea
+
 import function.logSettings as logSettings
 
 logger = logSettings.createLogger(__name__)
 logger.addHandler(logging.StreamHandler())
+
 
 class aboutWidget(QDialog):
     def __init__(self, mw, db):
@@ -13,7 +16,7 @@ class aboutWidget(QDialog):
             self.setGeometry(100, 150, 400, 350)
             self.setModal(True)
             self.grid = QGridLayout()
-            
+
             version = db.getVersion()
             versionLbl = QLabel('Version: ' + str(version))
             aboutLbl = QLabel('A program designed to help keep track of security'
@@ -726,12 +729,12 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.''')
-                       
-            
+
                     scrollArea.setWidget(lbl)
-                    grid.addWidget(scrollArea,0,0)
+                    grid.addWidget(scrollArea, 0, 0)
                     self.setLayout(grid)
                     self.show()
             except Exception:
-                logger.exception('problem')  
+                logger.exception('problem')
+
         lic = licenceWidget(self)

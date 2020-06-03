@@ -6,11 +6,11 @@ from PyQt5.QtWidgets import QDialog, QCalendarWidget, QGridLayout
 
 import function.logSettings as logSettings
 
-logger = logSettings.createLogger(__name__)
+logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 
-class calendarWidget(QDialog):
+class CalendarWidget(QDialog):
     def __init__(self, mw, tribe, db):
         try:
             QDialog.__init__(self, mw)
@@ -18,7 +18,7 @@ class calendarWidget(QDialog):
             self.setGeometry(100, 150, 900, 550)
             self.setModal(True)
             self.grid = QGridLayout()
-            self.cal = calendar()
+            self.cal = Calendar()
             # get checkin info
             self.cal.checkins = QDate(2019, 1, 1)
             self.fillCal(db, tribe)
@@ -42,7 +42,7 @@ class calendarWidget(QDialog):
 
 # a modified QCalendarWidget class with the paintCell function re-coded.
 # This allows days to be drawn in with checkin info
-class calendar(QCalendarWidget):
+class Calendar(QCalendarWidget):
     def paintCell(self, painter, rect, date):
         if date in self.checkins:
             colour = QColor(255, 0, 0, 50)

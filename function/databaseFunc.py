@@ -3,9 +3,9 @@ import logging
 import sqlite3
 import sys
 
-from function.logSettings import createLogger, closeLogging
+from function.logSettings import create_logger, close_logging
 
-logger = createLogger(__name__)
+logger = create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 version = 0.11
@@ -19,7 +19,7 @@ class DatabaseConnect:
                                         detect_types=sqlite3.PARSE_DECLTYPES |
                                                     sqlite3.PARSE_COLNAMES)
             self.c = self.conn.cursor()
-            self.logger = createLogger(__name__)
+            self.logger = create_logger(__name__)
             self.logger.debug('db connected')
             self.c.execute('''CREATE TABLE IF NOT EXISTS tribalLocations(
                             tribe TEXT PRIMARY KEY,
@@ -343,4 +343,4 @@ class DatabaseConnect:
     def close_database(self):
         self.conn.close()
         self.logger.debug('db closed')
-        closeLogging(self.logger)
+        close_logging(self.logger)

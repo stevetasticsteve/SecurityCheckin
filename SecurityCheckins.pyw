@@ -183,7 +183,7 @@ class MyApp(QMainWindow):
                 self.db.close_database()
             except AttributeError:  # in case no .db exists program can still close
                 pass
-            function.logSettings.closeLogging(logger)
+            function.logSettings.close_logging(logger)
             app.quit()
         except Exception:
             self.handleError()
@@ -233,12 +233,12 @@ class MyApp(QMainWindow):
 
     def showCalendar(self, tribe):
         # pulls up calendar when tribe name pressed (see UI.checkinCalendarScreen.py)
-        UI.checkinCalendarScreen.calendarWidget(w, tribe, self.db)
+        UI.checkinCalendarScreen.CalendarWidget(w, tribe, self.db)
 
     def about(self):
         logger.debug('about function called')
         # pulls about about widget see about.py
-        UI.aboutScreen.aboutWidget(w, self.db)
+        UI.aboutScreen.Aboutwidget(w, self.db)
 
     def helpContents(self):
         logger.debug('helpContents function called')
@@ -292,7 +292,7 @@ class MyApp(QMainWindow):
         logger.debug('setActiveInactive function called')
         # Pulls up a new window featuring checkboxes where active and inactive can
         # be set (see UI.infoScreen.py) called from a menu item
-        UI.activeScreen.activeScreenWidget(w, self.db)
+        UI.activeScreen.Activescreenwidget(w, self.db)
 
     def seeInfo(self, tribe):
         logger.debug('seeInfo function called')
@@ -301,7 +301,7 @@ class MyApp(QMainWindow):
         tribe = tribe.rstrip(' btn')
         tribe = tribe.rstrip('info')
         tribe = tribe.rstrip(' ')
-        UI.infoScreen.infoScreenWidget(w, self.db, tribe)
+        UI.infoScreen.InfoScreenWidget(w, self.db, tribe)
 
     def changeOrder(self):
         logger.debug('changeOrder function called')
@@ -460,7 +460,7 @@ if __name__ == '__main__':
 
 
     # Start logging
-    logger = function.logSettings.createLogger(__name__)
+    logger = function.logSettings.create_logger(__name__)
     logger.addHandler(logging.StreamHandler())
     logger.info('GUI started')
     # Create GUI process
@@ -483,12 +483,12 @@ if __name__ == '__main__':
         ret = msgBox.exec_()
         if ret == 0:
             logger.info('User chose to create new .db')
-            UI.EditDbDialog.createDBDialog(w).exec_()
+            UI.EditDbDialog.CreateDBDialog(w).exec_()
         elif ret == 1:
             # Pull up a open file window if load called. Copy selected .db to
             # cwd, which should be the application folder
             logger.info('User chose to load existing .db')
-            file = UI.EditDbDialog.loadDB(w)
+            file = UI.EditDbDialog.load_db(w)
             if file:
                 shutil.copyfile(file, 'checkins.db')
                 QMessageBox.about(w,

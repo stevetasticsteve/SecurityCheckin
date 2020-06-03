@@ -8,11 +8,11 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog
 import function.databaseFunc as databaseFunc
 import function.logSettings  as logSettings
 
-logger = logSettings.createLogger(__name__)
+logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 
-class createDBDialog(QDialog):
+class CreateDBDialog(QDialog):
     def __init__(self, mw):
         QDialog.__init__(self, mw)
         self.setWindowTitle('Create database')
@@ -29,48 +29,48 @@ class createDBDialog(QDialog):
         self.lineInpt = QLineEdit(self)
         self.lineInpt.setFocus()
 
-        addBtn = QPushButton(self)
-        addBtn.setText('Add')
-        addBtn.clicked.connect(self.addTribe)
+        add_btn = QPushButton(self)
+        add_btn.setText('Add')
+        add_btn.clicked.connect(self.add_tribe)
 
-        rmBtn = QPushButton(self)
-        rmBtn.setText('Remove')
-        rmBtn.clicked.connect(self.removeTribe)
+        rm_btn = QPushButton(self)
+        rm_btn.setText('Remove')
+        rm_btn.clicked.connect(self.remove_tribe)
 
-        OkBtn = QPushButton(self)
-        OkBtn.setText('OK')
-        OkBtn.clicked.connect(self.closeDialog)
+        ok_btn = QPushButton(self)
+        ok_btn.setText('OK')
+        ok_btn.clicked.connect(self.close_dialog)
 
         self.grid.addWidget(self.tribesTbl, 0, 0, 5, 5)
-        self.grid.addWidget(addBtn, 6, 1)
+        self.grid.addWidget(add_btn, 6, 1)
         self.grid.addWidget(self.lineInpt, 6, 0)
-        self.grid.addWidget(rmBtn, 4, 6)
-        self.grid.addWidget(OkBtn, 6, 6)
+        self.grid.addWidget(rm_btn, 4, 6)
+        self.grid.addWidget(ok_btn, 6, 6)
 
         self.setLayout(self.grid)
         self.show()
 
-    def errorHandling(self):
+    def error_handling(self):
         logger.exception('Fatal Error:')
         QMessageBox.about(self, 'Error', 'A fatal error has occured, '
                                          'check the log for details', )
         sys.exit()
 
-    def addTribe(self):
+    def add_tribe(self):
         try:
             tribe = self.lineInpt.text()
             if tribe:  # check not blank
                 # add another if to check if already in table
-                curRow = self.tribesTbl.rowCount()
-                self.tribesTbl.setRowCount(curRow + 1)
-                self.tribesTbl.setItem(curRow, 0, QTableWidgetItem(tribe))
+                cur_row = self.tribesTbl.rowCount()
+                self.tribesTbl.setRowCount(cur_row + 1)
+                self.tribesTbl.setItem(cur_row, 0, QTableWidgetItem(tribe))
                 self.lineInpt.setText('')
                 self.lineInpt.setFocus()
 
         except Exception:
-            self.errorHandling()
+            self.error_handling()
 
-    def removeTribe(self):
+    def remove_tribe(self):
         try:
             if self.tribesTbl.rowCount() > 0:
                 curRow = self.tribesTbl.currentRow()
@@ -80,9 +80,9 @@ class createDBDialog(QDialog):
                         print('removed ' + tribe)
                         self.tribesTbl.removeRow(self.tribesTbl.currentRow())
         except Exception:
-            self.errorHandling()
+            self.error_handling()
 
-    def readTable(self):
+    def read_table(self):
         # called as part of clicking Ok
         try:
             self.db = databaseFunc.DatabaseConnect()
@@ -100,23 +100,23 @@ class createDBDialog(QDialog):
                 self.db.add_tribal_location(location, families[i])
             self.db.close_database()
         except Exception:
-            self.errorHandling()
+            self.error_handling()
 
-    def closeDialog(self):
+    def close_dialog(self):
         # function called when OK is clicked
         try:
             if self.tribesTbl.rowCount() > 0:
                 # only allow .db creation with at least 1 tribe
-                self.readTable()
+                self.read_table()
                 self.close()
                 return self.db
             else:
                 pass
         except Exception:
-            self.errorHandling()
+            self.error_handling()
 
 
-def loadDB(self):
+def load_db(self):
     # Called by hitting load when no .db exists.
     logger.debug('Load called')
     try:

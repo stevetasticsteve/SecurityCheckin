@@ -6,7 +6,7 @@ logFile = 'log.log'
 logLevel = logging.DEBUG
 
 
-def createLogger(name):
+def create_logger(name):
     logger = logging.getLogger(name)
     logger.setLevel(logLevel)
     handler = logging.FileHandler(logFile)
@@ -17,7 +17,7 @@ def createLogger(name):
     return logger
 
 
-def closeLogging(logger):
+def close_logging(logger):
     handlers = logger.handlers[:]
     for handler in handlers:
         handler.close()

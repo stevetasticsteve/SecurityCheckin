@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QScrollAr
 
 import function.logSettings as logSettings
 
-logger = logSettings.createLogger(__name__)
+logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 
-class aboutWidget(QDialog):
+class Aboutwidget(QDialog):
     def __init__(self, mw, db):
         try:
             QDialog.__init__(self, mw)
@@ -18,25 +18,25 @@ class aboutWidget(QDialog):
             self.grid = QGridLayout()
 
             version = db.get_version()
-            versionLbl = QLabel('Version: ' + str(version))
-            aboutLbl = QLabel('A program designed to help keep track of security'
-                              ' checkins from NTM bush locations')
-            copyrightLbl = QLabel('Copyright StannoSoft, 2019')
-            creatorLbl = QLabel('Created by Stephen Stanley, stevetasticsteve@gmail.com')
-            licenceLbl = QLabel('Distributed under GNU Public licence click button for details')
+            version_lbl = QLabel('Version: ' + str(version))
+            about_lbl = QLabel('A program designed to help keep track of security'
+                               ' checkins from NTM bush locations')
+            copyright_lbl = QLabel('Copyright Stephen Stanley, 2020')
+            creator_lbl = QLabel('Created by Stephen Stanley, stevetasticsteve@gmail.com')
+            licence_lbl = QLabel('Distributed under GNU Public licence click button for details')
 
-            okBtn = QPushButton('Ok')
-            okBtn.clicked.connect(self.close)
-            licenceBtn = QPushButton('Licence info')
-            licenceBtn.clicked.connect(self.licence)
+            ok_btn = QPushButton('Ok')
+            ok_btn.clicked.connect(self.close)
+            licence_btn = QPushButton('Licence info')
+            licence_btn.clicked.connect(self.licence)
 
-            self.grid.addWidget(aboutLbl, 1, 0)
-            self.grid.addWidget(versionLbl, 2, 0)
-            self.grid.addWidget(copyrightLbl, 3, 0)
-            self.grid.addWidget(creatorLbl, 4, 0)
-            self.grid.addWidget(licenceLbl, 5, 0)
-            self.grid.addWidget(okBtn, 6, 0)
-            self.grid.addWidget(licenceBtn, 6, 1)
+            self.grid.addWidget(about_lbl, 1, 0)
+            self.grid.addWidget(version_lbl, 2, 0)
+            self.grid.addWidget(copyright_lbl, 3, 0)
+            self.grid.addWidget(creator_lbl, 4, 0)
+            self.grid.addWidget(licence_lbl, 5, 0)
+            self.grid.addWidget(ok_btn, 6, 0)
+            self.grid.addWidget(licence_btn, 6, 1)
 
             self.setLayout(self.grid)
             self.show()
@@ -45,7 +45,7 @@ class aboutWidget(QDialog):
 
     def licence(self):
         # new widget with licenc information
-        class licenceWidget(QDialog):
+        class Licencewidget(QDialog):
             try:
                 def __init__(self, mw):
                     QDialog.__init__(self, mw)
@@ -54,7 +54,7 @@ class aboutWidget(QDialog):
                     self.setMaximumHeight(1000)
                     self.setModal(True)
                     grid = QGridLayout()
-                    scrollArea = QScrollArea()
+                    scroll_area = QScrollArea()
                     lbl = QLabel('''                GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -730,11 +730,11 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.''')
 
-                    scrollArea.setWidget(lbl)
-                    grid.addWidget(scrollArea, 0, 0)
+                    scroll_area.setWidget(lbl)
+                    grid.addWidget(scroll_area, 0, 0)
                     self.setLayout(grid)
                     self.show()
             except Exception:
                 logger.exception('problem')
 
-        lic = licenceWidget(self)
+        Licencewidget(self)

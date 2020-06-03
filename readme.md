@@ -10,6 +10,8 @@ longer than 3 days without being checked in appear in red.
 
 The program could be used to keep track of any group of tasks that need to be attended to regularly.
 
+![Screenshot](https://raw.githubusercontent.com/stevetasticsteve/SecurityCheckin/master/icons/checkin_app_screenshot.png)
+
 ## Getting started
 A pyinstaller .exe is provided in the dist folder (whole folder needs to be copied)
 
@@ -27,4 +29,4 @@ Alternatively Python can run SecurityCheckins.pyw
 Bug reports or comments can be emailed to stevetasticsteve@gmail.com
 
 ## Licence
- This project is licensed under [GPL 3.0 ].
+ This project is licensed under [GPL 3.0 ](https://github.com/stevetasticsteve/SecurityCheckin/blob/master/LICENSE.md).

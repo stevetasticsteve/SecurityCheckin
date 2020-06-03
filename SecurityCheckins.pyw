@@ -24,7 +24,7 @@ class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = UI.checkinUI.Ui_MainWindow()
-        self.setWindowIcon(QtGui.QIcon(resource_path('CheckinIcon.ico')))
+        self.setWindowIcon(QtGui.QIcon(resource_path('icons/CheckinIcon.ico')))
         self.ui.setupUi(self)
         self.resize(1000, 900)
         self.statusBar = self.ui.statusbar
@@ -73,7 +73,7 @@ class MyApp(QMainWindow):
         # populate active and inactive sub-widgets
         i = self.drawActiveWidget()
         i = i + 10  # prevents problems if only 0-1 tribes are active
-        self.drawInactiveWidget(self.db.listInactiveTribalInfo())
+        self.drawInactiveWidget(self.db.list_inactive_tribal_info())
         # Add widgets to grid of main window    
         self.grid.addWidget(self.pickDateLbl, 0, 1, )
         self.grid.addWidget(self.dateEdit, 0, 2)
@@ -88,9 +88,9 @@ class MyApp(QMainWindow):
         # called as part of the home function, adds labels and buttons for each
         # active tribal location in the active sub widget
         if self.ui.actionLast_check_in_order.isChecked():
-            tribalLocations = self.db.sortTribesByLastCheckin()
+            tribalLocations = self.db.sort_tribes_by_last_checkin()
         elif self.ui.actionAlphabetical_order.isChecked():
-            tribalLocations = self.db.sortAlphabetically()
+            tribalLocations = self.db.sort_alphabetically()
         # split the list of lists into 2 lists
         for tribe in tribalLocations:
             self.activeTribalLocations.append(tribe[0])
@@ -126,7 +126,7 @@ class MyApp(QMainWindow):
             infoBtn.setMaximumWidth(30)
             infoBtn.setFlat(True)
             infoBtn.setObjectName(tribe + ' info btn')
-            infoBtn.setIcon(QtGui.QIcon(resource_path('Info-icon.png')))
+            infoBtn.setIcon(QtGui.QIcon(resource_path('icons/Info-icon.png')))
             self.infoBtn.append(infoBtn)
             self.infoBtn[i].clicked.connect(
                 lambda: self.seeInfo(self.sender().objectName()))
@@ -156,7 +156,7 @@ class MyApp(QMainWindow):
             infoBtn.setMaximumWidth(30)
             infoBtn.setFlat(True)
             infoBtn.setObjectName(tribe + ' info btn')
-            infoBtn.setIcon(QtGui.QIcon('Info-icon.png'))
+            infoBtn.setIcon(QtGui.QIcon('icons/Info-icon.png'))
             self.inactiveInfoBtn.append(infoBtn)
             self.inactiveInfoBtn[i].clicked.connect(
                 lambda: self.seeInfo(self.sender().objectName()))
@@ -180,7 +180,7 @@ class MyApp(QMainWindow):
         try:
             logger.debug('Close event')
             try:
-                self.db.closeDatabase()
+                self.db.close_database()
             except AttributeError:  # in case no .db exists program can still close
                 pass
             function.logSettings.closeLogging(logger)
@@ -198,7 +198,7 @@ class MyApp(QMainWindow):
             name = name.rstrip('Checkin')
             name = name.rstrip(' ')
             method = self.checkInCombo[index].currentText()
-            ret = self.db.logCheckIn(name, method, date)
+            ret = self.db.log_check_in(name, method, date)
             if ret == 'Already checked in':
                 self.statusBar.showMessage(name +
                                            ' already checked in on'
@@ -215,7 +215,7 @@ class MyApp(QMainWindow):
     def updateLastCheckInLabel(self, label, tribe):
         # sets how many days since check in label, colours it red 4 days or up
         try:
-            lastCheckIn = self.db.getLastCheckIn(tribe)
+            lastCheckIn = self.db.get_last_check_in(tribe)
             if lastCheckIn == 'n/a':
                 label.setText('n/a')
                 return
@@ -265,7 +265,7 @@ class MyApp(QMainWindow):
                                              ' will be deleted instead')
         if ok and newMethod:
             try:
-                func = self.db.addCheckinMethod(newMethod)
+                func = self.db.add_checkin_method(newMethod)
                 if func == 'cannot delete':
                     msg = QMessageBox.about(self, 'Cannot delete',
                                             'Checkin method is being used'
@@ -279,20 +279,20 @@ class MyApp(QMainWindow):
         # gets a list of checkin methods from db and then fills a combo box, setting
         # the lastcheckin is the active option. Called for each combo box
         # during drawActiveWidget func
-        checkinMethods = self.db.listCheckinMethods()
+        checkinMethods = self.db.list_checkin_methods()
         for tribe in self.activeTribalLocations:
             combo = QComboBox()
             for method in checkinMethods:
                 combo.addItem(method[0])
             self.checkInCombo.append(combo)
-            last = self.db.getLastCheckinMethod(tribe)
+            last = self.db.get_last_checkin_method(tribe)
             combo.setCurrentIndex(last)
 
     def setActiveInactive(self):
         logger.debug('setActiveInactive function called')
         # Pulls up a new window featuring checkboxes where active and inactive can
         # be set (see UI.infoScreen.py) called from a menu item
-        UI.activeScreen.UI.activeScreenWidget(w, self.db)
+        UI.activeScreen.activeScreenWidget(w, self.db)
 
     def seeInfo(self, tribe):
         logger.debug('seeInfo function called')
@@ -301,7 +301,7 @@ class MyApp(QMainWindow):
         tribe = tribe.rstrip(' btn')
         tribe = tribe.rstrip('info')
         tribe = tribe.rstrip(' ')
-        UI.infoScreen.UI.infoScreenWidget(w, self.db, tribe)
+        UI.infoScreen.infoScreenWidget(w, self.db, tribe)
 
     def changeOrder(self):
         logger.debug('changeOrder function called')
@@ -337,7 +337,7 @@ class MyApp(QMainWindow):
                 grid = QGridLayout()
                 self.removeCombo = QComboBox()
                 # Get list of all tribal locations
-                tribes = self.db.listAllTribalLocations()
+                tribes = self.db.list_all_tribal_locations()
                 self.tribesList = []
                 for tribe in tribes:
                     self.removeCombo.addItem(tribe[0])
@@ -363,7 +363,7 @@ class MyApp(QMainWindow):
         # box and deletes it completely from .db
         try:
             tribe = self.tribesList[self.removeCombo.currentIndex()]
-            self.db.deleteLocation(tribe)
+            self.db.delete_location(tribe)
             msg = QMessageBox.about(self, 'Done', tribe + ' deleted from .db')
             self.removeDialog.close()
             self.resetScreen()
@@ -380,7 +380,7 @@ class MyApp(QMainWindow):
                                                 'Tribal Location')
             if ok and newTribe:
                 # Create new .db row with family blank to be filled in later
-                self.db.addTribalLocation(newTribe, '')
+                self.db.add_tribal_location(newTribe, '')
                 self.resetScreen()
         except Exception:
             logger.exception('addTribe fail')
@@ -399,7 +399,7 @@ class MyApp(QMainWindow):
             grid = QGridLayout()
             editGrid = QGridLayout()
             # Get active and inactive tribal locations
-            text = self.db.listAllTribalLocations()
+            text = self.db.list_all_tribal_locations()
             self.FEtribeLabels = []
             self.familyLineEdits = []
             # Fill a widget with labels and line edits
@@ -428,7 +428,7 @@ class MyApp(QMainWindow):
         logger.debug('updateFamilies function called')
         # Called from editFamilyInfo function, closes dialog and updates .db
         for i, item in enumerate(self.familyLineEdits):
-            self.db.updateFamilyInfo(item.text(), self.FEtribeLabels[i].text())
+            self.db.update_family_info(item.text(), self.FEtribeLabels[i].text())
         self.editFamilyDialog.close()
         self.resetScreen()
 
@@ -437,14 +437,14 @@ class MyApp(QMainWindow):
         # Called froma  menu item, finds last checkin, shows info in a message box
         # and asks for confirmation to delete from .db. Used to fix user misclicks
         try:
-            checkin = self.db.getLastUserAction()
+            checkin = self.db.get_last_user_action()
             checkinInfo = checkin[1] + ' who checked in by ' + checkin[2]
             msg = QMessageBox.question(w,
                                        'Delete last checkin',
                                        'The last checkin was: ' + checkinInfo +
                                        ' do you really want to delete this from .db?')
             if msg == QMessageBox.Yes:
-                self.db.deleteLast(checkin[0])
+                self.db.delete_last(checkin[0])
                 self.resetScreen()
         except Exception:
             logger.exception('undoLast function fail')
@@ -506,5 +506,5 @@ if __name__ == '__main__':
     # If .db already exists connect to .db and run program. Should run always
     # after initial setup
     if os.path.exists('checkins.db'):
-        x = w.home(function.databaseFunc.databaseConnect())
+        x = w.home(function.databaseFunc.DatabaseConnect())
     sys.exit(app.exec_())

@@ -22,7 +22,7 @@ class infoScreenWidget(QDialog):
             self.setModal(True)
             self.grid = QGridLayout()
             self.textArea = QPlainTextEdit()
-            self.currentInfo = self.db.getInfo(tribe)
+            self.currentInfo = self.db.get_info(tribe)
             self.textArea.appendPlainText(self.currentInfo)
             self.grid.addWidget(self.textArea, 0, 0)
             okBtn = QPushButton('Ok')
@@ -38,6 +38,6 @@ class infoScreenWidget(QDialog):
         # Once Ok is clicked take text in widget and save to .db
         newInfo = self.textArea.toPlainText()
         if self.currentInfo != newInfo:  # Only save if changes made
-            self.db.updateInfo(self.tribe, newInfo)
+            self.db.update_info(self.tribe, newInfo)
             logger.info('new text saved to info')
         self.close()

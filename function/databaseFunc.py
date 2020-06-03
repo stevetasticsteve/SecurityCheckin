@@ -9,16 +9,15 @@ logger = createLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 version = 0.11
-acceptedDBversion = 0.1
+accepted_db_version = 0.1
 
 
-class databaseConnect():
-
+class DatabaseConnect:
     def __init__(self):
         try:
             self.conn = sqlite3.connect('checkins.db',
                                         detect_types=sqlite3.PARSE_DECLTYPES |
-                                                     sqlite3.PARSE_COLNAMES)
+                                                    sqlite3.PARSE_COLNAMES)
             self.c = self.conn.cursor()
             self.logger = createLogger(__name__)
             self.logger.debug('db connected')
@@ -61,14 +60,14 @@ class databaseConnect():
         except Exception:
             self.logger.exception('__init__ error')
 
-    def handleError(self):
+    def handle_error(self):
         self.conn.rollback()
         self.logger.exception('Database error, rollback initiated.')
         self.conn.close()
         self.logger.debug('db successfully closed.')
         sys.exit()
 
-    def addTribalLocation(self, name, family):
+    def add_tribal_location(self, name, family):
         try:
             self.c.execute('''INSERT INTO tribalLocations(tribe, family, information, active)
                             VALUES(?, ?, '' ,'True' )''', (name, family))
@@ -76,9 +75,9 @@ class databaseConnect():
         except sqlite3.IntegrityError:
             raise sqlite3.IntegrityError
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def listActiveTribalInfo(self):
+    def list_active_tribal_info(self):
         try:
             self.c.execute('''SELECT tribe, family FROM tribalLocations
                             WHERE Active = ('True') ''')
@@ -86,9 +85,9 @@ class databaseConnect():
             return data
             # returns a list of tuples (tribe, family units)
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def listInactiveTribalInfo(self):
+    def list_inactive_tribal_info(self):
         try:
             self.c.execute('''SELECT tribe, family FROM tribalLocations
                             WHERE Active = ('False') ''')
@@ -96,31 +95,31 @@ class databaseConnect():
             return data
             # returns a list of tuples (tribe, family units)
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def listAllTribalLocations(self):
+    def list_all_tribal_locations(self):
         # This function returns a list of both active and inactive works
         try:
-            active = self.listActiveTribalInfo()
-            inactive = self.listInactiveTribalInfo()
-            tribalLocations = []
+            active = self.list_active_tribal_info()
+            inactive = self.list_inactive_tribal_info()
+            tribal_locations = []
             for tup in active:
-                tribalLocations.append(tup)
+                tribal_locations.append(tup)
             for tup in inactive:
-                tribalLocations.append(tup)
-            return tribalLocations
+                tribal_locations.append(tup)
+            return tribal_locations
             # returns a list of tuples (tribe, family units) active + inactive
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def listCheckinMethods(self):
+    def list_checkin_methods(self):
         try:
             self.c.execute('''SELECT method FROM checkInMethods ''')
             return self.c.fetchall()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def logCheckIn(self, tribe, method, date):
+    def log_check_in(self, tribe, method, date):
         try:
             self.c.execute('''SELECT date as "date [timestamp]"
                             FROM checkIns WHERE tribe = ?''', (tribe,))
@@ -138,21 +137,21 @@ class databaseConnect():
                 self.conn.commit()
                 self.logger.debug(tribe + ' logged as checked in via ' + method)
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def getLastCheckIn(self, tribe):
+    def get_last_check_in(self, tribe):
         try:
             self.c.execute('''SELECT date as "date [timestamp]"
                             FROM checkIns WHERE tribe = ? ''', (tribe,))
             data = self.c.fetchall()
-            if data == []:
+            if not data:
                 return 'n/a'
-            latestCheckIn = max(data)
-            return latestCheckIn[0]
+            latest_check_in = max(data)
+            return latest_check_in[0]
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def sortTribesByLastCheckin(self):
+    def sort_tribes_by_last_checkin(self):
         # Used to get all active tribal locations sorted by date of last checkin,
         # used in the drawActiveWidget function
         try:
@@ -165,7 +164,7 @@ class databaseConnect():
             # and add it at index 0
             for tup in data:
                 tup = list(tup)
-                tup.insert(0, self.getLastCheckIn(tup[0]))
+                tup.insert(0, self.get_last_check_in(tup[0]))
                 # If tribe not checked in ever 'n/a' will crash the sort
                 if type(tup[0]) == str:
                     tup[0] = datetime.datetime.now()
@@ -176,17 +175,17 @@ class databaseConnect():
             for tup in tribes:
                 tup.remove(tup[0])
             # return a list of lists (tribe, family)
-            return (tribes)
+            return tribes
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def sortAlphabetically(self):
+    def sort_alphabetically(self):
         # Used to get all active tribal locations sorted alphabetically,
         # used in the drawActiveWidget function
         try:
-            activeTribes = self.c.execute('''SELECT tribe, family FROM
-                                            tribalLocations
-                                            WHERE Active = ('True') ''')
+            self.c.execute('''SELECT tribe, family FROM
+                                tribalLocations
+                                WHERE Active = ('True') ''')
             data = self.c.fetchall()
             tribes = []
             # convert into a list of lists
@@ -198,11 +197,11 @@ class databaseConnect():
             # returns a list of lists
             return tribes
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def getLastCheckinMethod(self, tribe):
+    def get_last_checkin_method(self, tribe):
         try:
-            date = self.getLastCheckIn(tribe)
+            date = self.get_last_check_in(tribe)
             self.c.execute('''SELECT method FROM checkInMethods''')
             checkinMethods = self.c.fetchall()
             self.c.execute('''SELECT checkInMethod from checkIns Where (tribe,
@@ -214,9 +213,9 @@ class databaseConnect():
                 return checkinMethods.index(data[0])
 
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def listCheckinHistory(self, tribe):
+    def list_checkin_history(self, tribe):
         try:
             self.c.execute('''SELECT date as "date [timestamp]", checkInMethod
                             FROM
@@ -224,18 +223,17 @@ class databaseConnect():
             data = self.c.fetchall()
             return data
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def getVersion(self):
+    def get_version(self):
         # provide version and appID info
         try:
             self.c.execute('''SELECT version, appID from meta ''')
-            version = self.c.fetchall()
-            return version
+            return self.c.fetchall()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def addCheckinMethod(self, method):
+    def add_checkin_method(self, method):
         # Called from main.addCheckMethod adds or removes checkin methods from db
         try:
             self.c.execute('''INSERT into checkInMethods (method) VALUES (?) ''', (method,))
@@ -253,9 +251,9 @@ class databaseConnect():
                                 (?)''', (method,))
                 self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def isActive(self, tribe):
+    def is_active(self, tribe):
         try:
             self.c.execute('''SELECT Active FROM tribalLocations WHERE
                             tribe = ?''', (tribe,))
@@ -266,15 +264,15 @@ class databaseConnect():
             elif data == 'False':
                 return False
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def makeInactive(self, tribe):
+    def make_inactive(self, tribe):
         try:
             self.c.execute('''UPDATE tribalLocations SET Active = 'False'
                             WHERE tribe = ?''', (tribe,))
             self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
     def makeActive(self, tribe):
         try:
@@ -282,26 +280,26 @@ class databaseConnect():
                             WHERE tribe = ?''', (tribe,))
             self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def getInfo(self, tribe):
+    def get_info(self, tribe):
         try:
             self.c.execute('''SELECT information FROM tribalLocations
                             WHERE tribe = ?''', (tribe,))
             data = self.c.fetchone()
             return data[0]
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def updateInfo(self, tribe, text):
+    def update_info(self, tribe, text):
         try:
             self.c.execute('''UPDATE tribalLocations SET information =  ?
                             WHERE tribe = ?''', (text, tribe))
             self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def deleteLocation(self, tribe):
+    def delete_location(self, tribe):
         # Called by remove tribe menu item, deletes a tribe from .db including all
         # checkin history (to prevent bugs of trying to access data for a tribe
         # that isn't listed in tribal locations table
@@ -310,22 +308,22 @@ class databaseConnect():
             self.c.execute('''DELETE FROM checkIns WHERE tribe = ?''', (tribe,))
             self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def updateFamilyInfo(self, newData, tribe):
+    def update_family_info(self, new_data, tribe):
         try:
             self.c.execute('''SELECT family FROM tribalLocations WHERE
                             tribe = ?''', (tribe,))
-            existingFamilyData = self.c.fetchone()[0]
+            existing_family_data = self.c.fetchone()[0]
 
-            if existingFamilyData != newData:
+            if existing_family_data != new_data:
                 self.c.execute('''UPDATE tribalLocations SET family =?
-                                WHERE tribe = ?''', (newData, tribe))
+                                WHERE tribe = ?''', (new_data, tribe))
                 self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def getLastUserAction(self):
+    def get_last_user_action(self):
         try:
             self.c.execute('''SELECT logged as "logged[timestamp]",
                             tribe, checkInMethod FROM checkIns''')
@@ -333,16 +331,16 @@ class databaseConnect():
             data.sort()
             return data[-1]
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def deleteLast(self, timestamp):
+    def delete_last(self, timestamp):
         try:
             self.c.execute('''DELETE FROM checkIns WHERE logged = ? ''', (timestamp,))
             self.conn.commit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def closeDatabase(self):
+    def close_database(self):
         self.conn.close()
         self.logger.debug('db closed')
         closeLogging(self.logger)

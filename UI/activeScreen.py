@@ -20,8 +20,8 @@ class activeScreenWidget(QDialog):
             self.setModal(True)
             self.grid = QGridLayout()
 
-            activeTribes = self.db.listActiveTribalInfo()
-            inactiveTribes = self.db.listInactiveTribalInfo()
+            activeTribes = self.db.list_active_tribal_info()
+            inactiveTribes = self.db.list_inactive_tribal_info()
             self.allTribes = []
             self.checkBoxes = []
 
@@ -80,7 +80,7 @@ class activeScreenWidget(QDialog):
         # Action whenever checkbox is changed
         try:
             if tribe.isChecked() == False:
-                self.db.makeInactive(tribe.objectName())
+                self.db.make_inactive(tribe.objectName())
             elif tribe.isChecked() == True:
                 self.db.makeActive(tribe.objectName())
             self.mw.resetScreen()

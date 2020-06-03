@@ -85,7 +85,7 @@ class createDBDialog(QDialog):
     def readTable(self):
         # called as part of clicking Ok
         try:
-            self.db = databaseFunc.databaseConnect()
+            self.db = databaseFunc.DatabaseConnect()
             tribes = []
             families = []
             for row in range(self.tribesTbl.rowCount()):
@@ -97,8 +97,8 @@ class createDBDialog(QDialog):
                     family = 'info not entered'
                 families.append(family)
             for i, location in enumerate(tribes):
-                self.db.addTribalLocation(location, families[i])
-            self.db.closeDatabase()
+                self.db.add_tribal_location(location, families[i])
+            self.db.close_database()
         except Exception:
             self.errorHandling()
 

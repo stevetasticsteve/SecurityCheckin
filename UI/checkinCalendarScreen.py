@@ -30,7 +30,7 @@ class calendarWidget(QDialog):
 
     def fillCal(self, db, tribe):
         try:
-            data = db.listCheckinHistory(tribe)
+            data = db.list_checkin_history(tribe)
             self.cal.checkins = []
             self.cal.methods = []
             for item in data:

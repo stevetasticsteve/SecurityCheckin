@@ -17,7 +17,7 @@ class aboutWidget(QDialog):
             self.setModal(True)
             self.grid = QGridLayout()
 
-            version = db.getVersion()
+            version = db.get_version()
             versionLbl = QLabel('Version: ' + str(version))
             aboutLbl = QLabel('A program designed to help keep track of security'
                               ' checkins from NTM bush locations')

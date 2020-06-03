@@ -3,3 +3,6 @@ Our organization has people living in remote areas for extended periods of time.
 The program could be used to keep track of any group of tasks that need to be attended to regularly.
 
 A pyinstaller .exe is provided in the dist folder (whole folder needs to be copied)
+
+0.1 First deoployment build
+0.11 Bugfix: Select date widget always jumped back to today after checkin, now it remains unchanged if user has selected a date during program runtime

@@ -8,20 +8,20 @@ from PyQt5.QtWidgets import QLabel, QScrollArea, QComboBox, QCalendarWidget
 from PyQt5.QtWidgets import QWidget, QGridLayout, QDateEdit, QDialog, QLineEdit
 from PyQt5.QtWidgets import QInputDialog
 from PyQt5 import QtGui
-import checkinUI
-import logSettings
-import databaseFunc
-import EditDbDialog
-import checkinCalendarScreen
-import aboutScreen
-import activeScreen
-import infoScreen
+import UI.checkinUI
+import function.logSettings
+import function.databaseFunc
+import UI.EditDbDialog
+import UI.checkinCalendarScreen
+import UI.aboutScreen
+import UI.activeScreen
+import UI.infoScreen
 
 
 class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = checkinUI.Ui_MainWindow()
+        self.ui = UI.checkinUI.Ui_MainWindow()
         self.setWindowIcon(QtGui.QIcon(resource_path('CheckinIcon.ico')))
         self.ui.setupUi(self)
         self.resize(1000,900)
@@ -185,7 +185,7 @@ class MyApp(QMainWindow):
                 self.db.closeDatabase()
             except AttributeError: #in case no .db exists program can still close
                 pass
-            logSettings.closeLogging(logger)
+            function.logSettings.closeLogging(logger)
             app.quit()
         except Exception:
             self.handleError()
@@ -236,14 +236,14 @@ class MyApp(QMainWindow):
             
             
     def showCalendar(self, tribe):
-    # pulls up calendar when tribe name pressed (see checkinCalendarScreen.py)
-        checkinCalendarScreen.calendarWidget(w, tribe, self.db)
+    # pulls up calendar when tribe name pressed (see UI.checkinCalendarScreen.py)
+        UI.checkinCalendarScreen.calendarWidget(w, tribe, self.db)
         
 
     def about(self):
         logger.debug('about function called')
     # pulls about about widget see about.py
-        aboutScreen.aboutWidget(w, self.db)
+        UI.aboutScreen.aboutWidget(w, self.db)
         
 
     def helpContents(self):
@@ -301,18 +301,18 @@ class MyApp(QMainWindow):
     def setActiveInactive(self):
         logger.debug('setActiveInactive function called')
     # Pulls up a new window featuring checkboxes where active and inactive can
-    # be set (see infoScreen.py) called from a menu item
-        activeScreen.activeScreenWidget(w, self.db)
+    # be set (see UI.infoScreen.py) called from a menu item
+        UI.activeScreen.UI.activeScreenWidget(w, self.db)
         
 
     def seeInfo(self, tribe):
         logger.debug('seeInfo function called')
-    # Pulls up a new window in which to write notes (see infoScreen.py)
+    # Pulls up a new window in which to write notes (see UI.infoScreen.py)
     # Called from a menu item
         tribe = tribe.rstrip(' btn')
         tribe = tribe.rstrip('info')
         tribe = tribe.rstrip(' ')
-        infoScreen.infoScreenWidget(w, self.db, tribe)
+        UI.infoScreen.UI.infoScreenWidget(w, self.db, tribe)
         
 
     def changeOrder(self):
@@ -476,7 +476,7 @@ if __name__ == '__main__':
         return os.path.join(os.path.abspath('.'), relative_path)
     
     # Start logging
-    logger = logSettings.createLogger(__name__)
+    logger = function.logSettings.createLogger(__name__)
     logger.addHandler(logging.StreamHandler())
     logger.info('GUI started')
     # Create GUI process
@@ -499,12 +499,12 @@ if __name__ == '__main__':
         ret = msgBox.exec_()
         if ret == 0:
             logger.info('User chose to create new .db')
-            EditDbDialog.createDBDialog(w).exec_()
+            UI.EditDbDialog.createDBDialog(w).exec_()
         elif ret == 1:
         # Pull up a open file window if load called. Copy selected .db to
         # cwd, which should be the application folder
             logger.info('User chose to load existing .db')
-            file = EditDbDialog.loadDB(w)
+            file = UI.EditDbDialog.loadDB(w)
             if file:
                 shutil.copyfile(file, 'checkins.db')
                 QMessageBox.about(w,
@@ -522,5 +522,5 @@ if __name__ == '__main__':
     # If .db already exists connect to .db and run program. Should run always
     # after initial setup
     if os.path.exists('checkins.db'):
-        x = w.home(databaseFunc.databaseConnect())
+        x = w.home(function.databaseFunc.databaseConnect())
     sys.exit(app.exec_())

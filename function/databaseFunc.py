@@ -2,7 +2,7 @@ import sqlite3
 import sys
 import logging
 import datetime
-from logSettings import createLogger, closeLogging
+from function.logSettings import createLogger, closeLogging
 
 logger = createLogger(__name__)
 logger.addHandler(logging.StreamHandler())

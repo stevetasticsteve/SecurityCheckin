@@ -1,6 +1,6 @@
 import logging
 from PyQt5.QtWidgets import QDialog, QGridLayout, QLabel, QPushButton, QCheckBox
-import logSettings
+import function.logSettings as logSettings
 
 logger = logSettings.createLogger(__name__)
 logger.addHandler(logging.StreamHandler())

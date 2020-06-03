@@ -31,15 +31,15 @@ class MyApp(QMainWindow):
         # Join menu items to functions
         self.ui.actionExit.triggered.connect(self.close)
         self.ui.actionAbout.triggered.connect(self.about)
-        self.ui.actionAdd_Remove_checkin_methods.triggered.connect(self.addCheckMethod)
+        self.ui.actionAdd_Remove_checkin_methods.triggered.connect(self.add_check_method)
         self.ui.actionHelp_contents.triggered.connect(self.helpContents)
-        self.ui.actionSet_active_inactive.triggered.connect(self.setActiveInactive)
-        self.ui.actionLast_check_in_order.triggered.connect(self.changeOrder)
-        self.ui.actionAlphabetical_order.triggered.connect(self.changeOrder)
-        self.ui.actionRemove_tribe.triggered.connect(self.removeTribeDialog)
-        self.ui.actionAdd_tribe.triggered.connect(self.addTribe)
-        self.ui.actionEdit_family_information.triggered.connect(self.editFamilyInfo)
-        self.ui.actionUndo_last_checkin.triggered.connect(self.undoLast)
+        self.ui.actionSet_active_inactive.triggered.connect(self.set_active_inactive)
+        self.ui.actionLast_check_in_order.triggered.connect(self.change_order)
+        self.ui.actionAlphabetical_order.triggered.connect(self.change_order)
+        self.ui.actionRemove_tribe.triggered.connect(self.remove_tribe_dialog)
+        self.ui.actionAdd_tribe.triggered.connect(self.add_tribe)
+        self.ui.actionEdit_family_information.triggered.connect(self.edit_family_info)
+        self.ui.actionUndo_last_checkin.triggered.connect(self.undo_last)
         # Initialize window
         self.grid = self.ui.gridLayout_2
         self.show
@@ -71,9 +71,9 @@ class MyApp(QMainWindow):
         self.activeLbl = QLabel('Active works')
         self.inactiveLbl = QLabel('Inactive works')
         # populate active and inactive sub-widgets
-        i = self.drawActiveWidget()
+        i = self.draw_active_widget()
         i = i + 10  # prevents problems if only 0-1 tribes are active
-        self.drawInactiveWidget(self.db.list_inactive_tribal_info())
+        self.draw_inactive_widget(self.db.list_inactive_tribal_info())
         # Add widgets to grid of main window    
         self.grid.addWidget(self.pickDateLbl, 0, 1, )
         self.grid.addWidget(self.dateEdit, 0, 2)
@@ -84,89 +84,89 @@ class MyApp(QMainWindow):
         self.grid.addWidget(self.scrollArea2, i + 2, 0, i + 2, 5)
         self.scrollArea2.setWidget(self.inactiveWidget)
 
-    def drawActiveWidget(self):
+    def draw_active_widget(self):
         # called as part of the home function, adds labels and buttons for each
         # active tribal location in the active sub widget
         if self.ui.actionLast_check_in_order.isChecked():
-            tribalLocations = self.db.sort_tribes_by_last_checkin()
+            tribal_locations = self.db.sort_tribes_by_last_checkin()
         elif self.ui.actionAlphabetical_order.isChecked():
-            tribalLocations = self.db.sort_alphabetically()
+            tribal_locations = self.db.sort_alphabetically()
         # split the list of lists into 2 lists
-        for tribe in tribalLocations:
+        for tribe in tribal_locations:
             self.activeTribalLocations.append(tribe[0])
             self.activeTribalFamilies.append(tribe[1])
-        self.tribeBtn = []
-        self.familyLbl = []
-        self.checkInBtn = []
-        self.lastCheckIn = []
-        self.checkInCombo = []
-        self.infoBtn = []
+        self.tribe_btn = []
+        self.family_lbl = []
+        self.check_in_btn = []
+        self.last_check_in = []
+        self.check_in_combo = []
+        self.info_btn = []
         j = 0  # temp variable that will only return if no active tribes
         for i, tribe in enumerate(self.activeTribalLocations):
             j = i + 1
-            tribeBtn = QPushButton(tribe)
-            tribeBtn.setFlat(True)
-            tribeBtn.setFont(QtGui.QFont("Times", weight=QtGui.QFont.Bold))
-            tribeBtn.setMaximumWidth(150)
-            self.tribeBtn.append(tribeBtn)
-            self.tribeBtn[i].clicked.connect(
-                lambda: self.showCalendar(self.sender().text()))
-            familyLbl = QLabel(self.activeTribalFamilies[i])
-            self.familyLbl.append(familyLbl)
-            lastCheckLbl = QLabel()
-            lastCheckLbl.setMaximumWidth(60)
-            self.updateLastCheckInLabel(lastCheckLbl, tribe)
-            self.lastCheckIn.append(lastCheckLbl)
-            checkInBtn = QPushButton(tribe + ' Checkin')
-            self.checkInBtn.append(checkInBtn)
-            self.checkInBtn[i].clicked.connect(
-                lambda: self.checkIn(self.sender().text()))
-            self.populateComboBoxes()
-            infoBtn = QPushButton()
-            infoBtn.setMaximumWidth(30)
-            infoBtn.setFlat(True)
-            infoBtn.setObjectName(tribe + ' info btn')
-            infoBtn.setIcon(QtGui.QIcon(resource_path('icons/Info-icon.png')))
-            self.infoBtn.append(infoBtn)
-            self.infoBtn[i].clicked.connect(
-                lambda: self.seeInfo(self.sender().objectName()))
-            self.activeGrid.addWidget(tribeBtn, (j), 0)
-            self.activeGrid.addWidget(lastCheckLbl, (j), 3)
-            self.activeGrid.addWidget(self.checkInCombo[i], (j), 4)
-            self.activeGrid.addWidget(checkInBtn, (j), 5)
-            self.activeGrid.addWidget(familyLbl, (j), 2)
-            self.activeGrid.addWidget(infoBtn, j, 1)
+            tribe_btn = QPushButton(tribe)
+            tribe_btn.setFlat(True)
+            tribe_btn.setFont(QtGui.QFont("Times", weight=QtGui.QFont.Bold))
+            tribe_btn.setMaximumWidth(150)
+            self.tribe_btn.append(tribe_btn)
+            self.tribe_btn[i].clicked.connect(
+                lambda: self.show_calendar(self.sender().text()))
+            family_lbl = QLabel(self.activeTribalFamilies[i])
+            self.family_lbl.append(family_lbl)
+            last_check_lbl = QLabel()
+            last_check_lbl.setMaximumWidth(60)
+            self.update_last_check_in_label(last_check_lbl, tribe)
+            self.last_check_in.append(last_check_lbl)
+            check_in_btn = QPushButton(tribe + ' Checkin')
+            self.check_in_btn.append(check_in_btn)
+            self.check_in_btn[i].clicked.connect(
+                lambda: self.check_in(self.sender().text()))
+            self.populate_combo_boxes()
+            info_btn = QPushButton()
+            info_btn.setMaximumWidth(30)
+            info_btn.setFlat(True)
+            info_btn.setObjectName(tribe + ' info btn')
+            info_btn.setIcon(QtGui.QIcon(resource_path('icons/Info-icon.png')))
+            self.info_btn.append(info_btn)
+            self.info_btn[i].clicked.connect(
+                lambda: self.see_info(self.sender().objectName()))
+            self.activeGrid.addWidget(tribe_btn, (j), 0)
+            self.activeGrid.addWidget(last_check_lbl, (j), 3)
+            self.activeGrid.addWidget(self.check_in_combo[i], (j), 4)
+            self.activeGrid.addWidget(check_in_btn, (j), 5)
+            self.activeGrid.addWidget(family_lbl, (j), 2)
+            self.activeGrid.addWidget(info_btn, j, 1)
         # returns an integer of number of rows required
         return j
 
-    def drawInactiveWidget(self, inactiveTribeList):
+    def draw_inactive_widget(self, inactive_tribe_list):
         # create a widget (as container) with inactive works presented.
-        self.inactiveInfoBtn = []
-        for tribe in inactiveTribeList:
+        self.inactive_info_btn = []
+        for tribe in inactive_tribe_list:
             self.inactiveTribalLocations.append(tribe[0])
             self.inactiveTribalFamilies.append(tribe[1])
 
         for i, tribe in enumerate(self.inactiveTribalLocations):
-            tribeLbl = QLabel(self.inactiveTribalLocations[i])
-            tribeLbl.setFont(QtGui.QFont("Times", weight=QtGui.QFont.Bold))
-            familyLbl = QLabel(self.inactiveTribalFamilies[i])
+            tribe_lbl = QLabel(self.inactiveTribalLocations[i])
+            tribe_lbl.setFont(QtGui.QFont("Times", weight=QtGui.QFont.Bold))
+            family_lbl = QLabel(self.inactiveTribalFamilies[i])
             spacer = QLabel('|')
-            infoBtn = QPushButton()
-            infoBtn.setObjectName(tribe + ' info btn')
-            infoBtn.setMaximumWidth(30)
-            infoBtn.setFlat(True)
-            infoBtn.setObjectName(tribe + ' info btn')
-            infoBtn.setIcon(QtGui.QIcon('icons/Info-icon.png'))
-            self.inactiveInfoBtn.append(infoBtn)
-            self.inactiveInfoBtn[i].clicked.connect(
-                lambda: self.seeInfo(self.sender().objectName()))
+            info_btn = QPushButton()
+            info_btn.setObjectName(tribe + ' info btn')
+            info_btn.setMaximumWidth(30)
+            info_btn.setFlat(True)
+            info_btn.setObjectName(tribe + ' info btn')
+            info_btn.setIcon(QtGui.QIcon('icons/Info-icon.png'))
+            self.inactive_info_btn.append(info_btn)
+            self.inactive_info_btn[i].clicked.connect(
+                lambda: self.see_info(self.sender().objectName()))
 
-            self.inactiveGrid.addWidget(tribeLbl, i, 0)
+            self.inactiveGrid.addWidget(tribe_lbl, i, 0)
             self.inactiveGrid.addWidget(spacer, i, 2)
-            self.inactiveGrid.addWidget(familyLbl, i, 3)
-            self.inactiveGrid.addWidget(infoBtn, i, 1)
+            self.inactiveGrid.addWidget(family_lbl, i, 3)
+            self.inactiveGrid.addWidget(info_btn, i, 1)
 
-    def handleError(self):
+    def handle_error(self):
         # provides a message box when errors happen. It's not called for every
         # function (my laziness) but being put into the resetScreen() exception
         # loop covers most eventualities as it's called so often.
@@ -186,40 +186,40 @@ class MyApp(QMainWindow):
             function.logSettings.close_logging(logger)
             app.quit()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def checkIn(self, name):
+    def check_in(self, name):
         # when checkin button pressed log info into .db
         try:
             qdate = self.dateEdit.date()
             self.userDate = qdate  # overides if condition in home
             date = datetime.datetime(qdate.year(), qdate.month(), qdate.day(), 0)
-            index = self.checkInBtn.index(self.sender())
+            index = self.check_in_btn.index(self.sender())
             name = name.rstrip('Checkin')
             name = name.rstrip(' ')
-            method = self.checkInCombo[index].currentText()
+            method = self.check_in_combo[index].currentText()
             ret = self.db.log_check_in(name, method, date)
             if ret == 'Already checked in':
                 self.statusBar.showMessage(name +
                                            ' already checked in on'
                                            ' specified date')
             else:
-                self.updateLastCheckInLabel(self.lastCheckIn[index], name)
+                self.update_last_check_in_label(self.last_check_in[index], name)
                 self.statusBar.showMessage('Logged ' + name +
                                            ' as checked in via ' + method, 4000)
                 self.resetScreen()  # causes tribe to jump to bottom when ordered by checkin
 
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def updateLastCheckInLabel(self, label, tribe):
+    def update_last_check_in_label(self, label, tribe):
         # sets how many days since check in label, colours it red 4 days or up
         try:
-            lastCheckIn = self.db.get_last_check_in(tribe)
-            if lastCheckIn == 'n/a':
+            last_check_in = self.db.get_last_check_in(tribe)
+            if last_check_in == 'n/a':
                 label.setText('n/a')
                 return
-            delta = datetime.datetime.now() - lastCheckIn
+            delta = datetime.datetime.now() - last_check_in
             deltadays = delta.days
             label.setText(str(deltadays) + ' days')
 
@@ -229,16 +229,16 @@ class MyApp(QMainWindow):
                 label.setStyleSheet("QLabel { color: black}")
             self.update()
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def showCalendar(self, tribe):
+    def show_calendar(self, tribe):
         # pulls up calendar when tribe name pressed (see UI.checkinCalendarScreen.py)
         UI.checkinCalendarScreen.CalendarWidget(w, tribe, self.db)
 
     def about(self):
         logger.debug('about function called')
         # pulls about about widget see about.py
-        UI.aboutScreen.Aboutwidget(w, self.db)
+        UI.aboutScreen.AboutWidget(w, self.db)
 
     def helpContents(self):
         logger.debug('helpContents function called')
@@ -252,20 +252,20 @@ class MyApp(QMainWindow):
                 self.grid.itemAt(i).widget().setParent(None)
             self.home(self.db)
         except Exception:
-            self.handleError()
+            self.handle_error()
 
-    def addCheckMethod(self):
+    def add_check_method(self):
         logger.debug('addCheckMethod function called')
         # produces an input dialog that takes text and uses it to either create a
         # checkin method if it doesn't exist or delete it if it does
         # called from a menu item
-        newMethod, ok = QInputDialog.getText(self, 'Add/remove checkin method',
+        new_method, ok = QInputDialog.getText(self, 'Add/remove checkin method',
                                              'Enter new check in method. If you'
                                              ' enter one that already exists it'
                                              ' will be deleted instead')
-        if ok and newMethod:
+        if ok and new_method:
             try:
-                func = self.db.add_checkin_method(newMethod)
+                func = self.db.add_checkin_method(new_method)
                 if func == 'cannot delete':
                     msg = QMessageBox.about(self, 'Cannot delete',
                                             'Checkin method is being used'
@@ -275,26 +275,26 @@ class MyApp(QMainWindow):
             except Exception:
                 logger.exception('addCheckMethod fail')
 
-    def populateComboBoxes(self):
+    def populate_combo_boxes(self):
         # gets a list of checkin methods from db and then fills a combo box, setting
         # the lastcheckin is the active option. Called for each combo box
         # during drawActiveWidget func
-        checkinMethods = self.db.list_checkin_methods()
+        checkin_methods = self.db.list_checkin_methods()
         for tribe in self.activeTribalLocations:
             combo = QComboBox()
-            for method in checkinMethods:
+            for method in checkin_methods:
                 combo.addItem(method[0])
-            self.checkInCombo.append(combo)
+            self.check_in_combo.append(combo)
             last = self.db.get_last_checkin_method(tribe)
             combo.setCurrentIndex(last)
 
-    def setActiveInactive(self):
+    def set_active_inactive(self):
         logger.debug('setActiveInactive function called')
         # Pulls up a new window featuring checkboxes where active and inactive can
         # be set (see UI.infoScreen.py) called from a menu item
         UI.activeScreen.Activescreenwidget(w, self.db)
 
-    def seeInfo(self, tribe):
+    def see_info(self, tribe):
         logger.debug('seeInfo function called')
         # Pulls up a new window in which to write notes (see UI.infoScreen.py)
         # Called from a menu item
@@ -303,7 +303,7 @@ class MyApp(QMainWindow):
         tribe = tribe.rstrip(' ')
         UI.infoScreen.InfoScreenWidget(w, self.db, tribe)
 
-    def changeOrder(self):
+    def change_order(self):
         logger.debug('changeOrder function called')
         # Sets the other order menu item to unchecked and redraws main window.
         # Called from menu items
@@ -314,7 +314,7 @@ class MyApp(QMainWindow):
             self.ui.actionLast_check_in_order.setChecked(False)
         self.resetScreen()
 
-    def removeTribeDialog(self):
+    def remove_tribe_dialog(self):
         logger.debug('removeTribeDialog function called')
         # Called by menu option pulls up a message box explaining function,
         # then creates a dialog with combo box to select tribe to delete to pass
@@ -344,48 +344,48 @@ class MyApp(QMainWindow):
                     self.tribesList.append(tribe[0])
                 # Create button and connect it to removeTribe function
                 btn = QPushButton('Ok')
-                btn.pressed.connect(self.removeTribe)
+                btn.pressed.connect(self.remove_tribe)
                 # Cancel button
-                cancelBtn = QPushButton('Cancel')
-                cancelBtn.pressed.connect(self.removeDialog.close)
+                cancel_btn = QPushButton('Cancel')
+                cancel_btn.pressed.connect(self.removeDialog.close)
                 # Add widgets to Grid and show dialog
                 grid.addWidget(self.removeCombo, 0, 0, 0, 2)
                 grid.addWidget(btn, 1, 0)
-                grid.addWidget(cancelBtn, 1, 1)
+                grid.addWidget(cancel_btn, 1, 1)
                 self.removeDialog.setLayout(grid)
                 self.removeDialog.show()
         except Exception:
             logger.exception('removeTribe fail')
 
-    def removeTribe(self):
+    def remove_tribe(self):
         logger.debug('removeTribe function called')
         # Called when Ok clicked in remove tribe dialog. Gets current tribe in combo
         # box and deletes it completely from .db
         try:
             tribe = self.tribesList[self.removeCombo.currentIndex()]
             self.db.delete_location(tribe)
-            msg = QMessageBox.about(self, 'Done', tribe + ' deleted from .db')
+            QMessageBox.about(self, 'Done', tribe + ' deleted from .db')
             self.removeDialog.close()
             self.resetScreen()
         except Exception:
             logger.exception('removeTribe fail')
 
-    def addTribe(self):
+    def add_tribe(self):
         logger.debug('addTribe function called')
         # called by a menu item, pulls up an input dialog to take the name of a
         # tribe to add to the .db
         try:
-            newTribe, ok = QInputDialog.getText(self, 'Add Tribe',
+            new_tribe, ok = QInputDialog.getText(self, 'Add Tribe',
                                                 'Enter name of new '
                                                 'Tribal Location')
-            if ok and newTribe:
+            if ok and new_tribe:
                 # Create new .db row with family blank to be filled in later
-                self.db.add_tribal_location(newTribe, '')
+                self.db.add_tribal_location(new_tribe, '')
                 self.resetScreen()
         except Exception:
             logger.exception('addTribe fail')
 
-    def editFamilyInfo(self):
+    def edit_family_info(self):
         logger.debug('editFamilyInfo function called')
         # Called by the menu item, pulls up the family info for the selected tribe
         # which can be edited by the user
@@ -406,16 +406,16 @@ class MyApp(QMainWindow):
             for i, tribe in enumerate(text):
                 lbl = QLabel(tribe[0])
                 self.FEtribeLabels.append(lbl)
-                lineEdit = QLineEdit(tribe[1])
-                lineEdit.setMinimumWidth(300)
-                self.familyLineEdits.append(lineEdit)
+                line_edit = QLineEdit(tribe[1])
+                line_edit.setMinimumWidth(300)
+                self.familyLineEdits.append(line_edit)
                 editGrid.addWidget(lbl, i, 0)
-                editGrid.addWidget(lineEdit, i, 1)
+                editGrid.addWidget(line_edit, i, 1)
             # Create Ok button set to trigger updateFamilies function
-            okBtn = QPushButton('Ok')
-            okBtn.pressed.connect(self.updateFamilies)
+            ok_btn = QPushButton('Ok')
+            ok_btn.pressed.connect(self.update_families)
             # Place everything on a grid
-            editGrid.addWidget(okBtn, i + 1, 1)
+            editGrid.addWidget(ok_btn, i + 1, 1)
             grid.addWidget(scrollArea)
             editFamilyWidget.setLayout(editGrid)
             self.editFamilyDialog.setLayout(grid)
@@ -424,7 +424,7 @@ class MyApp(QMainWindow):
         except Exception:
             logger.exception('editFamilyInfo fail')
 
-    def updateFamilies(self):
+    def update_families(self):
         logger.debug('updateFamilies function called')
         # Called from editFamilyInfo function, closes dialog and updates .db
         for i, item in enumerate(self.familyLineEdits):
@@ -432,7 +432,7 @@ class MyApp(QMainWindow):
         self.editFamilyDialog.close()
         self.resetScreen()
 
-    def undoLast(self):
+    def undo_last(self):
         logger.debug('undoLast function called')
         # Called froma  menu item, finds last checkin, shows info in a message box
         # and asks for confirmation to delete from .db. Used to fix user misclicks
@@ -469,7 +469,7 @@ if __name__ == '__main__':
     w.show()
     # Check if .db exists or not. If not create it or load one before continuing
     # Should only execute on first use of program.
-    if os.path.exists('checkins.db') == False:
+    if not os.path.exists('checkins.db'):
         logger.info('No .db exists, program must be running for first time')
         # Create custom message box
         msgBox = QMessageBox()
@@ -506,5 +506,5 @@ if __name__ == '__main__':
     # If .db already exists connect to .db and run program. Should run always
     # after initial setup
     if os.path.exists('checkins.db'):
-        x = w.home(function.databaseFunc.DatabaseConnect())
+        w.home(function.databaseFunc.DatabaseConnect())
     sys.exit(app.exec_())

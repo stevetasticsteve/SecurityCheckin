@@ -8,7 +8,7 @@ logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
 
-class Aboutwidget(QDialog):
+class AboutWidget(QDialog):
     def __init__(self, mw, db):
         try:
             QDialog.__init__(self, mw)

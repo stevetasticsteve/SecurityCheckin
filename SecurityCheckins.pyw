@@ -17,8 +17,6 @@ import aboutScreen
 import activeScreen
 import infoScreen
 
-version = 0.11
-acceptedDBversion = 0.1
 
 class MyApp(QMainWindow):
     def __init__(self):

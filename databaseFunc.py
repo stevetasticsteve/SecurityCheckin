@@ -3,11 +3,12 @@ import sys
 import logging
 import datetime
 from logSettings import createLogger, closeLogging
-from SecurityCheckins import version
-
 
 logger = createLogger(__name__)
 logger.addHandler(logging.StreamHandler())
+
+version = 0.11
+acceptedDBversion = 0.1
 
 class databaseConnect():
 

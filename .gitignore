@@ -1,0 +1,8 @@
+checkins.db
+*.log
+.idea
+__pycache__
+dist
+build
+pyinstaller
+*.egg-info

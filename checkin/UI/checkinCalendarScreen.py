@@ -4,7 +4,7 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QDialog, QCalendarWidget, QGridLayout
 
-import function.logSettings as logSettings
+import checkin.function.logSettings as logSettings
 
 logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())

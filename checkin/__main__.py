@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 import sys
+from importlib import resources
 
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QInputDialog
@@ -10,21 +11,22 @@ from PyQt5.QtWidgets import QLabel, QScrollArea, QComboBox
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QPushButton
 from PyQt5.QtWidgets import QWidget, QGridLayout, QDateEdit, QDialog, QLineEdit
 
-import UI.EditDbDialog
-import UI.aboutScreen
-import UI.activeScreen
-import UI.checkinCalendarScreen
-import UI.checkinUI
-import UI.infoScreen
-import function.databaseFunc
-import function.logSettings
+from checkin.UI import aboutScreen 
+from checkin.UI import activeScreen 
+from checkin.UI import checkinCalendarScreen 
+from checkin.UI import checkinUI
+from checkin.UI import infoScreen 
+from checkin.UI import EditDbDialog 
+from checkin.function import databaseFunc
+from checkin.function import logSettings
 
 
 class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = UI.checkinUI.Ui_MainWindow()
-        self.setWindowIcon(QtGui.QIcon(resource_path('icons/CheckinIcon.ico')))
+        self.ui = checkinUI.Ui_MainWindow()
+        with resources.path("checkin.icons", "CheckinIcon.ico") as path:
+            self.setWindowIcon(QtGui.QIcon(resource_path(path)))
         self.ui.setupUi(self)
         self.resize(1000, 900)
         self.statusBar = self.ui.statusbar
@@ -126,7 +128,8 @@ class MyApp(QMainWindow):
             info_btn.setMaximumWidth(30)
             info_btn.setFlat(True)
             info_btn.setObjectName(tribe + ' info btn')
-            info_btn.setIcon(QtGui.QIcon(resource_path('icons/Info-icon.png')))
+            with resources.path("checkin.icons", "Info-icon.png") as path:
+                info_btn.setIcon(QtGui.QIcon(resource_path(path)))
             self.info_btn.append(info_btn)
             self.info_btn[i].clicked.connect(
                 lambda: self.see_info(self.sender().objectName()))
@@ -156,7 +159,8 @@ class MyApp(QMainWindow):
             info_btn.setMaximumWidth(30)
             info_btn.setFlat(True)
             info_btn.setObjectName(tribe + ' info btn')
-            info_btn.setIcon(QtGui.QIcon('icons/Info-icon.png'))
+            with resources.path("checkin.icons", "Info-icon.png") as path:
+                info_btn.setIcon(QtGui.QIcon(path))
             self.inactive_info_btn.append(info_btn)
             self.inactive_info_btn[i].clicked.connect(
                 lambda: self.see_info(self.sender().objectName()))
@@ -183,7 +187,7 @@ class MyApp(QMainWindow):
                 self.db.close_database()
             except AttributeError:  # in case no .db exists program can still close
                 pass
-            function.logSettings.close_logging(logger)
+            logSettings.close_logging(logger)
             app.quit()
         except Exception:
             self.handle_error()
@@ -232,13 +236,13 @@ class MyApp(QMainWindow):
             self.handle_error()
 
     def show_calendar(self, tribe):
-        # pulls up calendar when tribe name pressed (see UI.checkinCalendarScreen.py)
-        UI.checkinCalendarScreen.CalendarWidget(w, tribe, self.db)
+        # pulls up calendar when tribe name pressed (see checkinCalendarScreen.py)
+        checkinCalendarScreen.CalendarWidget(w, tribe, self.db)
 
     def about(self):
         logger.debug('about function called')
         # pulls about about widget see about.py
-        UI.aboutScreen.AboutWidget(w, self.db)
+        aboutScreen.AboutWidget(w, self.db)
 
     def helpContents(self):
         logger.debug('helpContents function called')
@@ -291,17 +295,17 @@ class MyApp(QMainWindow):
     def set_active_inactive(self):
         logger.debug('setActiveInactive function called')
         # Pulls up a new window featuring checkboxes where active and inactive can
-        # be set (see UI.infoScreen.py) called from a menu item
-        UI.activeScreen.Activescreenwidget(w, self.db)
+        # be set (see infoScreen.py) called from a menu item
+        activeScreen.Activescreenwidget(w, self.db)
 
     def see_info(self, tribe):
         logger.debug('seeInfo function called')
-        # Pulls up a new window in which to write notes (see UI.infoScreen.py)
+        # Pulls up a new window in which to write notes (see infoScreen.py)
         # Called from a menu item
         tribe = tribe.rstrip(' btn')
         tribe = tribe.rstrip('info')
         tribe = tribe.rstrip(' ')
-        UI.infoScreen.InfoScreenWidget(w, self.db, tribe)
+        infoScreen.InfoScreenWidget(w, self.db, tribe)
 
     def change_order(self):
         logger.debug('changeOrder function called')
@@ -450,17 +454,16 @@ class MyApp(QMainWindow):
             logger.exception('undoLast function fail')
 
 
-if __name__ == '__main__':
-    # small code snippet to help pyinstaller find images. Does nothing outside
-    # pyinstaller runtime
-    def resource_path(relative_path):
-        if hasattr(sys, '_MEIPASS'):
-            return os.path.join(sys._MEIPASS, relative_path)
-        return os.path.join(os.path.abspath('.'), relative_path)
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath('.'), relative_path)
 
 
+def main():
+    global logger, w, app
     # Start logging
-    logger = function.logSettings.create_logger(__name__)
+    logger = logSettings.create_logger(__name__)
     logger.addHandler(logging.StreamHandler())
     logger.info('GUI started')
     # Create GUI process
@@ -483,12 +486,12 @@ if __name__ == '__main__':
         ret = msgBox.exec_()
         if ret == 0:
             logger.info('User chose to create new .db')
-            UI.EditDbDialog.CreateDBDialog(w).exec_()
+            EditDbDialog.CreateDBDialog(w).exec_()
         elif ret == 1:
             # Pull up a open file window if load called. Copy selected .db to
             # cwd, which should be the application folder
             logger.info('User chose to load existing .db')
-            file = UI.EditDbDialog.load_db(w)
+            file = EditDbDialog.load_db(w)
             if file:
                 shutil.copyfile(file, 'checkins.db')
                 QMessageBox.about(w,
@@ -506,5 +509,9 @@ if __name__ == '__main__':
     # If .db already exists connect to .db and run program. Should run always
     # after initial setup
     if os.path.exists('checkins.db'):
-        w.home(function.databaseFunc.DatabaseConnect())
+        w.home(databaseFunc.DatabaseConnect())
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()

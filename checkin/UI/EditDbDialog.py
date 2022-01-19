@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import QDialog, QLineEdit, QTableWidgetItem, QAbstractItemV
 from PyQt5.QtWidgets import QGridLayout, QTableWidget, QPushButton
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
-import function.databaseFunc as databaseFunc
-import function.logSettings  as logSettings
+import checkin.function.databaseFunc as databaseFunc
+import checkin.function.logSettings  as logSettings
 
 logger = logSettings.create_logger(__name__)
 logger.addHandler(logging.StreamHandler())

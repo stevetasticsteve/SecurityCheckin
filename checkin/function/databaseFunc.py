@@ -3,13 +3,13 @@ import logging
 import sqlite3
 import sys
 
-from function.logSettings import create_logger, close_logging
+from checkin.function.logSettings import create_logger, close_logging
 
 logger = create_logger(__name__)
 logger.addHandler(logging.StreamHandler())
 
-version = 0.1
-accepted_db_version = 0.1
+version = 0.511
+accepted_db_version = 0.4
 
 
 class DatabaseConnect:

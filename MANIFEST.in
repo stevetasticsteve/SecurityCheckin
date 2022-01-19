@@ -1,0 +1,4 @@
+include checkin/UI/*.py
+include checkin/icons/*
+include checkin/function/*.py
+

@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'checkin.ui'
+#
+# Created by: PyQt5 UI code generator 5.10.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(799, 598)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 799, 31))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuOrder = QtWidgets.QMenu(self.menubar)
+        self.menuOrder.setObjectName("menuOrder")
+        self.menuHelp = QtWidgets.QMenu(self.menubar)
+        self.menuHelp.setObjectName("menuHelp")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionAdd_tribe = QtWidgets.QAction(MainWindow)
+        self.actionAdd_tribe.setObjectName("actionAdd_tribe")
+        self.actionAdd_Remove_checkin_methods = QtWidgets.QAction(MainWindow)
+        self.actionAdd_Remove_checkin_methods.setObjectName("actionAdd_Remove_checkin_methods")
+        self.actionExport_database = QtWidgets.QAction(MainWindow)
+        self.actionExport_database.setObjectName("actionExport_database")
+        self.actionAlphabetical_order = QtWidgets.QAction(MainWindow)
+        self.actionAlphabetical_order.setCheckable(True)
+        self.actionAlphabetical_order.setChecked(False)
+        self.actionAlphabetical_order.setObjectName("actionAlphabetical_order")
+        self.actionLast_check_in_order = QtWidgets.QAction(MainWindow)
+        self.actionLast_check_in_order.setCheckable(True)
+        self.actionLast_check_in_order.setChecked(True)
+        self.actionLast_check_in_order.setObjectName("actionLast_check_in_order")
+        self.actionHelp_contents = QtWidgets.QAction(MainWindow)
+        self.actionHelp_contents.setObjectName("actionHelp_contents")
+        self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout.setObjectName("actionAbout")
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionSet_active_inactive = QtWidgets.QAction(MainWindow)
+        self.actionSet_active_inactive.setObjectName("actionSet_active_inactive")
+        self.actionRemove_tribe = QtWidgets.QAction(MainWindow)
+        self.actionRemove_tribe.setObjectName("actionRemove_tribe")
+        self.actionEdit_family_information = QtWidgets.QAction(MainWindow)
+        self.actionEdit_family_information.setObjectName("actionEdit_family_information")
+        self.actionUndo_last_checkin = QtWidgets.QAction(MainWindow)
+        self.actionUndo_last_checkin.setObjectName("actionUndo_last_checkin")
+        self.menuFile.addAction(self.actionAdd_tribe)
+        self.menuFile.addAction(self.actionRemove_tribe)
+        self.menuFile.addAction(self.actionEdit_family_information)
+        self.menuFile.addAction(self.actionSet_active_inactive)
+        self.menuFile.addAction(self.actionAdd_Remove_checkin_methods)
+        self.menuFile.addAction(self.actionUndo_last_checkin)
+        self.menuFile.addAction(self.actionExit)
+        self.menuOrder.addAction(self.actionAlphabetical_order)
+        self.menuOrder.addAction(self.actionLast_check_in_order)
+        self.menuHelp.addAction(self.actionHelp_contents)
+        self.menuHelp.addAction(self.actionAbout)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuOrder.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Tribal Check-ins"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.menuOrder.setTitle(_translate("MainWindow", "Order"))
+        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.actionAdd_tribe.setText(_translate("MainWindow", "Add tribe"))
+        self.actionAdd_tribe.setStatusTip(_translate("MainWindow", "Add a new tribe to .db"))
+        self.actionAdd_Remove_checkin_methods.setText(_translate("MainWindow", "Add/Remove check-in methods"))
+        self.actionAdd_Remove_checkin_methods.setStatusTip(
+            _translate("MainWindow", "Add or remove a way tribes can checkin"))
+        self.actionExport_database.setText(_translate("MainWindow", "Export database"))
+        self.actionAlphabetical_order.setText(_translate("MainWindow", "Alphabetical order"))
+        self.actionAlphabetical_order.setStatusTip(_translate("MainWindow", "I want to see everything alphabetically"))
+        self.actionLast_check_in_order.setText(_translate("MainWindow", "Last check in order"))
+        self.actionLast_check_in_order.setStatusTip(
+            _translate("MainWindow", "I want to see everything chronologically"))
+        self.actionHelp_contents.setText(_translate("MainWindow", "Help contents"))
+        self.actionHelp_contents.setStatusTip(_translate("MainWindow", "I don\'t know what\'s going on"))
+        self.actionAbout.setText(_translate("MainWindow", "About"))
+        self.actionAbout.setStatusTip(_translate("MainWindow", "What kind of thing is this thing?"))
+        self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionExit.setStatusTip(_translate("MainWindow", "I\'m done with all this jazz, smell ya l8r"))
+        self.actionSet_active_inactive.setText(_translate("MainWindow", "Set active/inactive"))
+        self.actionSet_active_inactive.setStatusTip(
+            _translate("MainWindow", "Set which tribes require checkins and which are dormant"))
+        self.actionRemove_tribe.setText(_translate("MainWindow", "Remove tribe"))
+        self.actionRemove_tribe.setStatusTip(_translate("MainWindow", "Remove tribe and all logged checkins from .db"))
+        self.actionEdit_family_information.setText(_translate("MainWindow", "Edit family information"))
+        self.actionEdit_family_information.setStatusTip(
+            _translate("MainWindow", "Change which families belong to which locations"))
+        self.actionUndo_last_checkin.setText(_translate("MainWindow", "Delete last checkin"))
+        self.actionUndo_last_checkin.setStatusTip(
+            _translate("MainWindow", "\"Oops I shouldn\'t have clicked that\" - this is the option for you"))
